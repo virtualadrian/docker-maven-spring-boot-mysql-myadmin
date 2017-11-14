@@ -1,0 +1,116 @@
+server:
+  address: 0.0.0.0
+  port: 8080
+  contextPath: /api/v1
+---
+spring:
+  aop:
+    proxy-target-class: true
+  profiles: default
+  devtools:
+    livereload:
+      enabled: true
+  jpa:
+    database: MYSQL
+    generate-ddl: false
+  datasource:
+    url: "jdbc:mysql://mysqldbms:3306/appdb"
+    username: appdbuser
+    password: P@ssword1
+    driverClassName: com.mysql.jdbc.Driver
+    defaultSchema: "appdb"
+    hibernate:
+      hbm2ddl.auto: validate
+      hbm2ddl.method: update
+      show_sql: true
+      format_sql: true
+      dialect: org.hibernate.dialect.MySQLDialect
+    hikari:
+      maximumPoolSize: 100
+      idle-timeout: 10000
+    initialize: true
+---
+spring:
+  profiles: develop
+  jpa:
+    database: MYSQL
+    generate-ddl: false
+  datasource:
+    url: "jdbc:mysql://mysqldbms:3306/appdb"
+    username: appdbuser
+    password: P@ssword1
+    driverClassName: com.mysql.jdbc.Driver
+    defaultSchema: "appdb"
+    hibernate:
+      hbm2ddl.auto: validate
+      hbm2ddl.method: update
+      show_sql: true
+      format_sql: true
+      dialect: org.hibernate.dialect.MySQLDialect
+    hikari:
+      maximumPoolSize: 100
+      idle-timeout: 10000
+    initialize: true
+
+---
+spring:
+  profiles: systems_integration
+  jpa:
+    database: sqlserver
+    generate-ddl: false
+  freemarker:
+    suffix: .ftl
+  datasource:
+    url: "jdbc:sqlserver://127.0.0.1:1433;databaseName=CompanyService;integratedSecurity=false;"
+    username: fake_qc_user
+    password: password789!
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+---
+spring:
+  profiles: production
+  jpa:
+    database: sqlserver
+    generate-ddl: false
+  freemarker:
+    suffix: .ftl
+  datasource:
+    url: "jdbc:sqlserver://192.168.31.212:1433;databaseName=CompanyService;integratedSecurity=false;"
+    username: fake_prod_usr
+    password: password789
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+---
+## JWT Auth
+#auth:
+#  secret: some-random-secret
+#  expires: 604800
+#  header: Authorization
+#
+#security:
+#  aop:
+#    proxy-target-class: true
+#  basic:
+#    enabled: false
+
+javamelody:
+  # if you have auto-proxy issues, you can add the following property
+  # (and the spring-boot-starter-aop dependency in pom.xml):
+  #advisor-auto-proxy-creator-enabled: false
+
+  # Initialization parameters for JavaMelody
+  # See: https://github.com/javamelody/javamelody/wiki/UserGuide#6-optional-parameters
+  init-parameters:
+    # log http requests
+    log: true
+
+    # to exclude images, css, fonts and js urls from the monitoring:
+    #url-exclude-pattern: (/webjars/.*|/css/.*|/images/.*|/fonts/.*|/js/.*)
+
+    # to add basic auth:
+    #authorized-users: admin:pwd
+
+    # to change the default storage directory:
+    #storage-directory: /tmp/javamelody
+
+    # to change the default "/monitoring" path
+    #monitoring-path: /admin/performance
