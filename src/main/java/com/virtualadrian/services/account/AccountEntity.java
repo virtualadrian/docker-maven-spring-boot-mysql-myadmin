@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
-@Table(name="template")
+@Table(name="account")
 public class AccountEntity extends BaseEntity {
 
     @Id
@@ -22,7 +22,7 @@ public class AccountEntity extends BaseEntity {
     @Column(name="content")
     private String content;
 
-    @Column(name="template_name")
+    @Column(name="account_name")
     private String template_name;
 
 
